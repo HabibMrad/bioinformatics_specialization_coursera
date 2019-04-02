@@ -155,6 +155,55 @@ def fasterFrequentWords(text,k):
     frequentPatterns = [pattern for pattern in frequencyArray if frequencyArray[pattern] == max_count]
     return {max_count:frequentPatterns}
 
- 
+"""
+   PatternToNumber(Pattern)
+        if Pattern contains no symbols
+            return 0
+        symbol ← LastSymbol(Pattern)
+        Prefix ← Prefix(Pattern)
+        return 4 · PatternToNumber(Prefix) + SymbolToNumber(symbol)
+"""
+def patternToNumberV2(pattern):
+    if len(pattern) == 0:
+        return 0
+    symbol=pattern[-1:]
+    prefix=pattern[:-1]
+    return 4*patternToNumberV2(prefix)+symbolToNumber(symbol)
 
-    
+def symbolToNumber(symbol):
+    nucleotides='ACGT'
+    return nucleotides.find(symbol)
+
+patternToNumberV2('ACGGCCTAGGGCCATATCGT')
+ 
+pattern='12345'
+
+pattern[1]
+
+"""
+NumberToPattern(index, k)
+        if k = 1
+            return NumberToSymbol(index)
+        prefixIndex ← Quotient(index, 4)
+        r ← Remainder(index, 4)
+        symbol ← NumberToSymbol(r)
+        PrefixPattern ← NumberToPattern(prefixIndex, k − 1)
+        return concatenation of PrefixPattern with symbol
+"""
+
+def numberToSymbol(index):
+    return 'ACGT'[index]
+
+int(11/4)
+11%4
+
+def numberToPatternV2(index, k):
+    if k == 1:
+        return numberToSymbol(index)
+    prefixIndex = int(index/ 4)
+    r = index % 4
+    symbol = numberToSymbol(r)
+    prefixPattern = numberToPatternV2(prefixIndex, k-1)
+    return prefixPattern + symbol
+
+numberToPatternV2(6298,11)
