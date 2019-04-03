@@ -134,8 +134,10 @@ def computingFrequencies(text, k):
         pattern = text[i:i+k]
         #j=patternToNumber(frequencyArray,'GT')
         frequencyArray[pattern]=frequencyArray[pattern]+1
-    return frequencyArray
+    #return frequencyArray
+    return list(frequencyArray.values())
 
+computingFrequencies('ACGCGGCTCTGAAA',2).values()
 ' '.join([str(val)for val in computingFrequencies('TTGTTGACGCACACTGAGGCCATAGGTGAAACTTGTTGGATTAAAGCTCTTACGCCCTTGACCTCCCAGAGTCGATTGGAGCGGTCATCACCACCGTTTCTTCGGTGATTCATCACCACGGGTCAAATCTGGCGTTGATATAAGAACGGGCTTCACGTGTTAGGCCCTACCGTGGGTTTCTGTTGGAGTCACGGGAGCGCAACGTGTTGAGCACTAAACTCCAGTGTATAACCCTCGTCTTCTTATTCGCGCAGACTGCGGTATTATGTCTTAAGCATAATAGAGTGCTATTGAAAGGGCGCACCCAGAGTAACACCGATTATCCCGTCCTTATTCTTGAAATCCCTACTCGGAGTCAGGAGTGAGTGTTGATCGGGTTACAATAATCCTGGGAACTCGACGGGTAGTCCCGGTGGCCCGATTGGGCCAATTTTTTAGAAACTTCGTAGTTCAGTAATGCAGTACGACCCTTCTAATGCCTCGCCGGTCAGCAGCGGCCATACTTACGGAGTCAGACCCTCAGTTCCGACTAACATGACTTGAGAAACTCTCGGTAACCTTTTTCTCGTCTGTTGCGAAGGACTCTACACACATATACAGCTCATGGTCGAGGGTTGACGGGAGAT', 8).values()])
 
 """
@@ -196,8 +198,6 @@ NumberToPattern(index, k)
 def numberToSymbol(index):
     return 'ACGT'[index]
 
-int(11/4)
-11%4
 
 def numberToPatternV2(index, k):
     if k == 1:
@@ -270,3 +270,33 @@ BetterClumpFinding(Genome, k, t, L)
                 add Pattern to the set FrequentPatterns
         return FrequentPatterns
 """
+
+tap='12345'
+tap[1:4]
+
+#usar clump
+#reiniciar frequency 
+def betterClumpFinding(genome, k, t, L):
+        frequentPatterns = set()
+        text = genome[0:L]
+        frequencyArray=computingFrequencies(text, k)
+        for pattern in frequencyArray:
+            if frequencyArray[pattern] >= t:
+                frequentPatterns.add(pattern)
+        for i in range(1,len(genome) - L +1):
+            firstPattern = genome[i-1: i-1+k]
+            frequencyArray[firstPattern] = frequencyArray[firstPattern] - 1
+            lastPattern = genome[i + L - k: i+L]
+            frequencyArray[lastPattern] = frequencyArray[lastPattern] + 1
+            if frequencyArray[lastPattern] >= t:
+                frequentPatterns.add(lastPattern)
+        return frequentPatterns
+
+#valuesArray=list(frequencyArray.keys())
+valuesArray[0]
+genome='CGGACTCGACAGATGTGAAGAACGACAATGTGAAGACTCGACACGACAGAGTGAAGAGAAGAGGAAACATTGTAA'
+genome=open('E_coli.txt').read()
+k=9
+L=500
+t=3
+len(betterClumpFinding(genome, k, t, L))
