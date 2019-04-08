@@ -64,7 +64,7 @@ def minSkewV2(text):
     return [item[0] for item in pos.items() if item[1]==min_val]
 
 genome=open('dataset_7_6_1.txt').read()
-genome='CATTCCAGTACTTCATGATGGCGTGAAGA'
+genome='CATTCCAGTACTTCGATGATGGCGTGAAGA'
 minSkewV2(genome)   
 
 def maxSkewV2(text):
@@ -99,8 +99,8 @@ def hammingDistance(p,q):
             distance+=1
     return distance
 
-p='TGACCCGTTATGCTCGAGTTCGGTCAGAGCGTCATTGCGAGTAGTCGTTTGCTTTCTCAAACTCC'
-q='GAGCGATTAAGCGTGACAGCCCCAGGGAACCCACAAAACGTGATCGCAGTCCATCCGATCATACA'
+p='CAGAAAGGAAGGTCCCCATACACCGACGCACCAGTTTA'
+q='CACGCCGTATGCATAAACGAGCCGCACGAACCAGAGAG'
 hammingDistance(p,q)
 
 
@@ -124,9 +124,9 @@ def approximatePatternCount(pattern, text, d):
     positions=approximatePatternMatching(pattern, text, d)
     return len(positions)
 
-pattern='CCC'
-text='CATGCCATTCGCATTGTCCCAGTGA'
-d=2
+pattern='AA'
+text='TACGCATTACAAAGCACA'
+d=1
 approximatePatternCount(pattern,text,d)
 
 import itertools
@@ -235,7 +235,7 @@ def neighbors(pattern, d):
         return neighborhood
     
 ' '.join(neighbors('ACGT',3))
-len(neighbors('TGCAT',2))
+len(neighbors('CCAGTCAATG',1))
 
 """
 Faster
