@@ -136,7 +136,60 @@ def entropy(motifs):
 
 entropy(motifs)
 
+"""
+MedianString(Dna, k)
+        distance ← ∞
+        for each k-mer Pattern from AA…AA to TT…TT
+            if distance > d(Pattern, Dna)
+                 distance ← d(Pattern, Dna)
+                 Median ← Pattern
+        return Median
+"""
+import itertools
 
+def createDictionary(k):
+    dic={}
+    nucleotides = 'ACGT'
+    for perm in itertools.product(nucleotides,repeat=k):
+        dic[''.join(perm)]=0
+    return dic
+
+def d(pattern, dna):
+    k= int(len(pattern))
+    dic = {}
+    for single_dna in dna:
+        min_val=sys.maxsize
+        for i in range(len(single_dna)-k+1):
+            distance=hammingDistance(pattern,single_dna[i:i+k])
+            if min_val > distance:
+                min_val=distance
+        dic[single_dna]=min_val   
+    return sum(list(dic.values()))
+
+d("AAA", dna)
+
+import sys
+
+def medianString(dna, k):
+        distance = sys.maxsize
+        dictionary=createDictionary(k)
+        median=""
+        for pattern in dictionary:
+            hamming_d=d(pattern, dna)
+            if distance > hamming_d:
+                 distance = hamming_d
+                 median =pattern
+        return median
         
-    
-        
+k=6
+dna=['CTCAACGTGCTAATTCAGATGAGCGTATATACGATCTCTATT',
+'ATGTATAGTGCTGTATAGAGGAAACCATCAACACATGTAGCT',
+'AGGTTCTCAACAGAAGTAATAGCCGTATAATGAGCAAAGGGA',
+'GCAGGTTGATGGGTATAGGTTGTGGTGACGCGCCAATTCTGG',
+'ATTCCAATGTCTGTATATTGCGCGTCTCCGTTTCGCCATTCT',
+'TCGCTCGAGATAGTATAGGCGAGTTGAGAACGTAGGTCTTCA',
+'TCGGATGTATAGTACCCATCTGAGGTGCATTTTTACCACGAA',
+'TAGACATACATAAATGCCTATACTGGCGTGTCACGGGTATAG',
+'GTATAGAGTACATGCACTTTCACTACGGTGTTGTAGCAGGCA',
+'ATATCCGTATAGTGCTCTAGTTGAACAACCAAAGTGCCCTTG']
+medianString(dna, k)        
