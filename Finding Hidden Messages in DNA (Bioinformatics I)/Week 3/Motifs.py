@@ -138,16 +138,20 @@ def entropy(motifs):
     profile=profileMotifs(motifs)
     entropy=0
     entropy_list=[]
-    for p in profile:
+    for i in range(len(profile.values())):
         score0=0
-        for nucleotide in p.keys():
-            score=p[nucleotide]
+        for nucleotide in profile.keys():
+            score=profile[nucleotide][i]
             if score > 0 and score<1:
                 score0=score0+score*log(score,2)
                 entropy=entropy-score*log(score,2)              
         entropy_list.append(score0*-1)
     return entropy
 
+profile={'A': [0.5, 0, 0, 0.5],
+'B': [0.25, 0.25, 0.25, 0.25],
+'C': [0, 0, 0, 1],
+'D': [0.25, 0, 0.5, 0.25]}
 entropy(motifs)
 
 """
@@ -232,18 +236,24 @@ def medianString(dna, k):
                  distance = hamming_d
                  median =pattern
         return median
+
+def medianStringList(dna, k):
+        distance = sys.maxsize
+        dictionary=createDictionary(k)
+        listita=[]
+        median=""
+        for pattern in dictionary:
+            hamming_d=d(pattern, dna)
+            if distance >= hamming_d:
+                 listita.append(pattern+" "+str(hamming_d))
+                 distance = hamming_d
+                 median =pattern
+        return listita
         
-k=6
-dna=['CTCAACGTGCTAATTCAGATGAGCGTATATACGATCTCTATT',
-'ATGTATAGTGCTGTATAGAGGAAACCATCAACACATGTAGCT',
-'AGGTTCTCAACAGAAGTAATAGCCGTATAATGAGCAAAGGGA',
-'GCAGGTTGATGGGTATAGGTTGTGGTGACGCGCCAATTCTGG',
-'ATTCCAATGTCTGTATATTGCGCGTCTCCGTTTCGCCATTCT',
-'TCGCTCGAGATAGTATAGGCGAGTTGAGAACGTAGGTCTTCA',
-'TCGGATGTATAGTACCCATCTGAGGTGCATTTTTACCACGAA',
-'TAGACATACATAAATGCCTATACTGGCGTGTCACGGGTATAG',
-'GTATAGAGTACATGCACTTTCACTACGGTGTTGTAGCAGGCA',
-'ATATCCGTATAGTGCTCTAGTTGAACAACCAAAGTGCCCTTG']
+k=7
+dna=['CTCGATGAGTAGGAAAGTAGTTTCACTGGGCGAACCACCCCGGCGCTAATCCTAGTGCCC',
+'GCAATCCTACCCGAGGCCACATATCAGTAGGAACTAGAACCACCACGGGTGGCTAGTTTC',
+'GGTGTTGAACCACGGGGTTAGTTTCATCTATTGTAGGAATCGGCTTCAAATCCTACACAG']
 medianString(dna, k)        
 
 def prProfile(consensus,profile):
@@ -253,14 +263,18 @@ def prProfile(consensus,profile):
         prob=prob*profile[l][i]
     return prob
     
-consensus='TCGTGGATTTCC'   
+consensus='CAGTGA'   
 profile = {
     'A': [0.2, 0.2, 0.0, 0.0, 0.0, 0.0, 0.9, 0.1, 0.1, 0.1, 0.3, 0.0],
     'C': [0.1, 0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.1, 0.2, 0.4, 0.6],
     'G': [0.0, 0.0, 1.0, 1.0, 0.9, 0.9, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0],
     'T': [0.7, 0.2, 0.0, 0.0, 0.1, 0.1, 0.0, 0.5, 0.8, 0.7, 0.3, 0.4]
-}   
-prProfile(consensus,profile) 
+}
+prof={'A': [0.4, 0.3, 0.0, 0.1, 0.0, 0.9],
+'C': [0.2, 0.3, 0.0, 0.4, 0.0, 0.1],
+'G': [0.1, 0.3, 1.0, 0.1, 0.5, 0.0],
+'T': [0.3, 0.1, 0.0, 0.4, 0.5, 0.0]}
+prProfile(consensus,prof) 
 
 def profileMostProbableKmer(text,k,profile):
     max_pattern=""
