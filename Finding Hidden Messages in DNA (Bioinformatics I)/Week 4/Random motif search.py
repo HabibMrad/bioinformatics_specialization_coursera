@@ -106,7 +106,7 @@ def randomizedMotifSearchLoop(dna, k, t):
     forever = 1
     bestMotifs=motifs[:]    
 
-    while forever<1000:        
+    while forever<1:        
         profile = profileMotifsLaplace(motifs)
         motifs=[]
         
@@ -115,12 +115,13 @@ def randomizedMotifSearchLoop(dna, k, t):
 
         if scoreMotifs(motifs) < scoreMotifs(bestMotifs):
             bestMotifs=motifs[:]
-                #print(bestMotifs) 
         motifs=randomizedMotifSearch(dna,k,t)
         forever+=1
         
     return bestMotifs
-        
+
+
+randomizedMotifSearchLoop(dna, k, t)   
     
 
 k=15
@@ -153,7 +154,16 @@ for motif in random_list:
     print(motif)
     
     
-
+if __name__ == "__main__":
+    k,t = [int(a) for a in input().strip().split(" ")]
+    Dna = []
+    for _ in range(t):
+        Dna.append(input())
+        
+    ans = RandomizedMotifSearch(Dna,k,t)
+    for a in ans:
+        print(a)
+        
 """
 GibbsSampler(Dna, k, t, N)
         randomly select k-mers Motifs = (Motif1, …, Motift) in each string from Dna
@@ -242,3 +252,12 @@ dna=[
 for motif in gibbsSampler(dna,k,t,n):
     print(motif)
 
+if __name__ == "__main__":
+    k,t,n = [int(a) for a in input().strip().split(" ")]
+    Dna = []
+    for _ in range(t):
+        Dna.append(input())
+        
+    ans = gibbsSamplerLoop(Dna,k,t,n)
+    for a in ans:
+        print(a)
